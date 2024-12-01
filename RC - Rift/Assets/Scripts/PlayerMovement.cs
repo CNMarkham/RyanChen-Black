@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float horizontal;
+    public float horizontal;
     private float speed = 8f;
     private float jumpingPower = 320f;
-    private bool isFacingRight;
+    public bool isFacingRight;
 
     private bool isWallSliding;
     private float wallSlidingSpeed = 2f;
 
-    private bool isWallJumping;
+    public bool isWallJumping;
     private float wallJumpingDirection;
     private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter;
     private float wallJumpingDuration = 0.4f;
-    private Vector2 wallJumpingPower = new Vector2(4f, 12f);
+    private Vector2 wallJumpingPower = new Vector2(4f, 9f);
 
     private bool canDash = true;
     private bool isDashing;
@@ -45,15 +45,15 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(rb.velocity.x, jumpingPower));
         }
 
-        //if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
-        //{
-        //    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        //}
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
+        }
         if (Input.GetKeyDown(KeyCode.Q) && canDash)
         {
             StartCoroutine(Dash());
         }
-        
+
 
         WallSlide();
         WallJump();
@@ -79,11 +79,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if(IsWalled() && !IsGrounded() && horizontal != 0f)
         {
+            Debug.Log("1");
             isWallSliding = true;
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
         }
         else
         {
+            Debug.Log("2");
             isWallSliding = false;
         }
     }
@@ -142,14 +144,8 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
-        if (isFacingRight == true)
-        {
-            rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
-        }
-        else
-        {
-            rb.velocity = new Vector2(transform.localScale.x * dashingPower * -1f, 0f);
-        }
+        rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+
         yield return new WaitForSeconds(dashingTime);
         rb.gravityScale = originalGravity;
         isDashing = false;
@@ -160,15 +156,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Flip()
     {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
+        Vector3 localScale = transform.localScale;
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                localScale.x *= -1f;
-            }
-            
+            localScale.x = -1f;
+            transform.localScale = localScale;
+            isFacingRight = false;
         }
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            localScale.x = 1f;
+            transform.localScale = localScale;
+            isFacingRight = true;
+        }
+
     }
 }
