@@ -30,17 +30,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
- 
+
+    public bool inRange = false;
+
     // Update is called once per frame
+
     void Update()
     {
+        inRange = GetComponent<JumpOrb>().inRange;
         if (isDashing)
         {
             return;
         }
         horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetButtonDown("Jump") && (IsGrounded()))
         {
             rb.AddForce(new Vector2(rb.velocity.x, jumpingPower));
         }
@@ -67,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        return Physics2D.OverlapCircle(groundCheck.position, 0.4f, groundLayer);
     }
 
     private bool IsWalled()
@@ -79,13 +83,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if(IsWalled() && !IsGrounded() && horizontal != 0f)
         {
-            Debug.Log("1");
             isWallSliding = true;
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
         }
         else
         {
-            Debug.Log("2");
             isWallSliding = false;
         }
     }
