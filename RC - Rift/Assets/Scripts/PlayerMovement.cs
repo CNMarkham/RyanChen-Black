@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        inRange = GetComponent<JumpOrb>().inRange;
+        //inRange = GetComponent<JumpOrb>().inRange;
         if (isDashing)
         {
             return;
