@@ -5,9 +5,15 @@ using UnityEngine;
 public class FallingPlatform : MonoBehaviour
 {
     private float FallDelay = 1f;
-    private float destroyDelay = 2f;
+    private float respawnDelay = 3f;
+    private Vector2 initialPosition;
 
     [SerializeField] private Rigidbody2D rb;
+
+    private void Start()
+    {
+        initialPosition = transform.position;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -20,6 +26,9 @@ public class FallingPlatform : MonoBehaviour
     {
         yield return new WaitForSeconds(FallDelay);
         rb.bodyType = RigidbodyType2D.Dynamic;
-        Destroy(gameObject, destroyDelay);
+        yield return new WaitForSeconds(respawnDelay);
+        rb.velocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        transform.position = initialPosition;
     }
 }
