@@ -8,6 +8,8 @@ TagManager:
   - Teleporter
   - Checkpoint
   - ReSpawn
+  - Blue
+  - Red
   layers:
   - Default
   - TransparentFX
