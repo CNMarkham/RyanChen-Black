@@ -16,7 +16,7 @@ public class Switch : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        blue.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -33,7 +33,6 @@ public class Switch : MonoBehaviour
                 mainCamera.backgroundColor = backgroundBlue;
                 isBlue = true;
                 isRed = false;
-                Debug.Log("blue");
             }
             if (isBlue == true && isRed == false && canSwitch == true)
             {
@@ -44,11 +43,9 @@ public class Switch : MonoBehaviour
                 mainCamera.backgroundColor = backgroundRed;
                 isRed = true;
                 isBlue = false;
-                Debug.Log("red");
             }
         }
     }
-
     IEnumerator Cooldown (float seconds)
     {
         canSwitch = false;
