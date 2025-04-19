@@ -10,6 +10,7 @@ TagManager:
   - ReSpawn
   - Blue
   - Red
+  - Pushbox
   layers:
   - Default
   - TransparentFX

@@ -33,7 +33,13 @@ public class PlayerMovement : MonoBehaviour
 
     public bool inRange = false;
 
+    public AudioSource music;
+
     // Update is called once per frame
+    void Start()
+    {
+        music.Play();
+    }
 
     void Update()
     {
