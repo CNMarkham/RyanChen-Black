@@ -11,6 +11,7 @@ TagManager:
   - Blue
   - Red
   - Pushbox
+  - Portal
   layers:
   - Default
   - TransparentFX
